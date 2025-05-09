@@ -1,5 +1,5 @@
 --[[
-
+    
     Deobfuscated By: @ilvarni / discord; ilvarni
     Reformatted By: @ilvarni / discord; ilvarni
 
@@ -8,7 +8,8 @@
     Preppy-Hub.lua
     Auto-Typer for Spelling Bee.
     
-    Originally Deobfuscated Script; https://github.com/ilvarni12/lol/blob/main/Main/Scripts/OriginalScript.lua
+    https://github.com/ilvarni12/lol/blob/main/Main/Scripts/OriginalScript.lua
+    ^^ Original script without formatting [ epic chatgpt comments ] 
 ]]
 
 ---------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ export type SpellingBeeType = {
     },
     
     --// Settings
-    Settings: {
+    Configuration: {
         TypingDelay: number,
         PreTypeWait: number,
         TypoCorrections: boolean,
@@ -46,7 +47,7 @@ export type SpellingBeeType = {
     },
     
     --// Data
-    Data: {
+    Settings: {
         Version: number,
         SupportedWords: number,
         LastSound: any,
@@ -93,7 +94,7 @@ local SpellingBee = {
         VIM = VirtualInputManager
     },
     -------------------------------------------
-    Settings = {
+    Configuration = {
         TypingDelay = 0.25,
         PreTypeWait = 1.25,
         TypoCorrections = false,
@@ -189,7 +190,7 @@ local SpellingBee = {
                         while self.Settings.AutoTypeEnabled do
                             if self.Settings.LastWord and not self.Settings.IsTypingWord and self.Settings.LastWord ~= self.Settings.LastTypedWord then
                                 self.Settings.IsTypingWord = true
-                                wait(self.Settings.PreTypeWait)
+                                wait(self.Configuration.PreTypeWait)
                                 
                                 local CurrentText = ""
                                 local MadeTypo = false
@@ -226,7 +227,7 @@ local SpellingBee = {
                                     Z = {"A", "S", "X"}
                                 }
                                 
-                                if self.Settings.TypoCorrections and math.random(1, 100) <= self.Settings.TypoFrequency then
+                                if self.Configuration.TypoCorrections and math.random(1, 100) <= self.Configuration.TypoFrequency then
                                     TypoIndex = math.random(2, #self.Settings.LastWord - 1) 
                                     local TypoType = math.random(1, 2) 
                                     
@@ -256,23 +257,23 @@ local SpellingBee = {
                                     if not self.Settings.AutoTypeEnabled then break end
                                     CurrentText = IncorrectWord:sub(1, i)
                                     Player.PlayerGui.Type.TextBox.Text = CurrentText
-                                    wait(self.Settings.TypingDelay)
+                                    wait(self.Configuration.TypingDelay)
                                 end
                                 
                                 if MadeTypo then
-                                    wait(self.Settings.TypingDelay * 2)
+                                    wait(self.Configuration.TypingDelay * 2)
                                     
                                     while #Player.PlayerGui.Type.TextBox.Text > TypoIndex do
                                         Player.PlayerGui.Type.TextBox.Text = Player.PlayerGui.Type.TextBox.Text:sub(1, -2)
-                                        wait(self.Settings.TypingDelay / 2)
+                                        wait(self.Configuration.TypingDelay / 2)
                                     end
                                     
-                                    wait(self.Settings.TypingDelay * 2)
+                                    wait(self.Configuration.TypingDelay * 2)
                                     
                                     for i = #Player.PlayerGui.Type.TextBox.Text + 1, #self.Settings.LastWord do
                                         if not self.Settings.AutoTypeEnabled then break end
                                         Player.PlayerGui.Type.TextBox.Text = self.Settings.LastWord:sub(1, i)
-                                        wait(self.Settings.TypingDelay)
+                                        wait(self.Configuration.TypingDelay)
                                     end
                                 end
                                 
@@ -296,10 +297,10 @@ local SpellingBee = {
             Range = {0.03, 0.25},
             Increment = 0.005,
             Suffix = "Seconds",
-            CurrentValue = self.Settings.TypingDelay,
+            CurrentValue = self.Configuration.TypingDelay,
             Flag = "TypingSpeedSlider",
             Callback = function(value)
-                self.Settings.TypingDelay = value
+                self.Configuration.TypingDelay = value
             end,
         })
         
@@ -308,10 +309,10 @@ local SpellingBee = {
             Range = {0.5, 2},
             Increment = 0.005,
             Suffix = "Seconds",
-            CurrentValue = self.Settings.PreTypeWait,
+            CurrentValue = self.Configuration.PreTypeWait,
             Flag = "TypingDelaySlider",
             Callback = function(value)
-                self.Settings.PreTypeWait = value
+                self.Configuration.PreTypeWait = value
             end,
         })
         
@@ -338,10 +339,10 @@ local SpellingBee = {
         
         self.UI.MainTab:CreateToggle({
             Name = "Auto Make Correcting Typos",
-            CurrentValue = self.Settings.TypoCorrections,
+            CurrentValue = self.Configuration.TypoCorrections,
             Flag = "TypoCorrectionsToggle",
             Callback = function(Value)
-                self.Settings.TypoCorrections = Value
+                self.Configuration.TypoCorrections = Value
             end,
         })
         
@@ -350,10 +351,10 @@ local SpellingBee = {
             Range = {5, 100},
             Increment = 5,
             Suffix = "% Chance",
-            CurrentValue = self.Settings.TypoFrequency,
+            CurrentValue = self.Configuration.TypoFrequency,
             Flag = "TypoSlider",
             Callback = function(Value)
-                self.Settings.TypoFrequency = Value
+                self.Configuration.TypoFrequency = Value
             end,
         })
         
@@ -364,7 +365,7 @@ local SpellingBee = {
             CurrentValue = false,
             Flag = "DynamicSpeedToggle",
             Callback = function(Value)
-                self.Settings.DynamicTyping = Value
+                self.Configuration.DynamicTyping = Value
             end,
         })
         
